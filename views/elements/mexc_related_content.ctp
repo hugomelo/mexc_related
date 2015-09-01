@@ -16,26 +16,18 @@
 switch ($type[0])
 {
 	case 'full':
-		if (!isset($type[1]))
-			$type[1] = 3;
-
-		$type[1] = min($type[1], count($data['MexcRelatedContent'])*3);
-		
-		echo $this->Bl->sbox(array(), array('size' => array('M' => $type[1], 'g' => -1), 'type' => 'cloud'));
-			echo $this->Bl->boxContainer(array(), array('size' => array('M' => $type[1]), 'type' => 'column_container'));
-			foreach ($data['MexcRelatedContent'] as $i => $related)
-			{
-				$className = $related['__className'];
-
-				echo $this->Bl->sbox(array(), array('size' => array('M' => 3, 'g' => -1), 'type' => 'inner_column'))
-				. $this->Jodel->insertModule($className, array('column', 'related_content'), $related)
-				. $this->Bl->ebox();
-				
-				if (($i+1)%($type[1]/3) == 0)
-					echo $this->Bl->floatBreak(), $this->Bl->br();
-			}
-			echo $this->Bl->eboxContainer();
-		echo $this->Bl->ebox();
+		echo $this->Bl->srow(array('class' => 'pages news'));
+			echo $this->Bl->sdiv(array('class' => "posts-list"), array());
+				foreach ($data['MexcRelatedContent'] as $i => $related)
+				{
+					echo $this->Bl->sdiv(array('class' => "col-xs-12 col-sm-6 col-md-4"), array());
+						echo $this->Bl->sdiv(array('class' => "post new"), array());
+							echo $this->Jodel->insertModule($related['related_model'], array('preview', 'box'), $related);
+						echo $this->Bl->ediv();
+					echo $this->Bl->ediv();
+				}
+			echo $this->Bl->ediv();
+		echo $this->Bl->erow();
 	break;
 	
 	
